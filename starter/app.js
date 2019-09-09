@@ -80,9 +80,21 @@ document.querySelector('.btn-hold').addEventListener('click', function(){
     
         // 2.- UPDATE UI
         document.querySelector('#score-'+activePlayer).textContent = scores[activePlayer];
-
+        
+        var input = document.querySelector('.final-score').value;
+        
+        // UNDEFINED, 0, NULL OR "" ARE COERCED TO FALSE
+        var winningScore;
+        
+        if (input) {            
+            winningScore = input;
+        } else {
+            winningScore = 100;
+        }
+            
+            
         // 3.- CHECK IF PLAYER WON THE GAME
-        if (scores[activePlayer] >= 100){
+        if (scores[activePlayer] >= winningScore){
             document.querySelector('#name-'+activePlayer).textContent = 'Winner!';
             document.querySelector('.dice').style.display = 'none';
             document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
