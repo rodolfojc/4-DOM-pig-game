@@ -18,6 +18,8 @@ init();
 
 //document.querySelector('#current-'+activePlayer).innerHTML = '<em>'+ dice +'</em>';
 
+var lastNumber;
+
 //DOM GETTER
 var x = document.querySelector('#score-0').textContent;
 console.log(x);
@@ -33,25 +35,34 @@ console.log(x);
 //ANONYMOUS FUCTION - NO NAME , CANNOT BE REUSED
 document.querySelector('.btn-roll').addEventListener('click', function(){
     
+    
+    
     if(gamePlaying) {
         
         // 1.- RANDOM NUMBER
         var dice = Math.floor(Math.random()*6)+1;
-
+        
         // 2.- DISPLAY THE RESULT
         var diceDOM = document.querySelector('.dice');
         diceDOM.style.display = 'block';
         diceDOM.src = 'dice-'+dice+'.png';
 
         // 3.- UPDATE THE ROUND SCORE IS THE ROLLED NUMBER IS NOT ONE
-        if (dice !== 1){
+        if (dice === 6 && lastNumber === 6) {
+            scores[activePlayer] = 0;
+            document.querySelector('#score-'+activePlayer).textContent = '0';
+        }
+        
+        else if (dice !== 1 ){
             // ADD SCORE
             roundScore += dice;
             document.querySelector('#current-'+activePlayer).textContent = roundScore;
-        }else {
-            // NEXT PLAYER
+        } else {
+            //NEXT PLAYER
             nextPlayer();
         }
+        
+        lastNumber = dice;
               
     }
     
@@ -109,7 +120,7 @@ document.querySelector('.btn-new').addEventListener('click', init);
 
 function init() {
     
-    score = [0,0];
+    scores = [0,0];
     activePlayer = 0; //(0) PLAYER 1, (1) PLAYER 2
     roundScore = 0;
     gamePlaying = true;
